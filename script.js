@@ -5,23 +5,24 @@ window.addEventListener('load', () => {
 
 });
 
-window.addEventListener('hashchange', () => {
-    router();
-});
 window.addEventListener('resize', setupCardClickHandlers);
 
-function router() {
-    const route = location.hash.slice(1) || 'hello';
+function router(route = 'hello') {
     const views = document.querySelectorAll('.view');
 
     views.forEach(view => {
-        if (view.id === route) {
-            view.classList.add('active');
-        } else {
-            view.classList.remove('active');
-        }
+        view.classList.toggle('active', view.id === route);
     });
 }
+
+document.querySelectorAll('nav a[data-route]').forEach(link => {
+    link.addEventListener('click', e => {
+        e.preventDefault();
+        const route = link.getAttribute('data-route');
+        router(route);
+    });
+});
+
 
 function setupCardClickHandlers() {
     const isMobile = window.innerWidth <= 550;
@@ -37,7 +38,7 @@ function setupCardClickHandlers() {
             newCard.addEventListener('click', () => {
                 const isOpen = newCard.classList.contains('open');
                 if (isOpen) {
-                    newCard.style.maxHeight = newCard.scrollHeight - 2 + 'px';
+                    newCard.style.maxHeight = newCard.scrollHeight + 'px';
                     requestAnimationFrame(() => {
                         newCard.classList.remove('open');
                     });
