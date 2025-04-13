@@ -6,27 +6,21 @@ window.addEventListener('load', () => {
 
 });
 
-window.addEventListener('resize', setupCardClickHandlers);
+let currentBreakpoint = getBreakpoint(window.innerWidth);
 
-async function router(route = 'hello') {
-
-    const views = document.querySelectorAll('.view');
-
-    for (let i = 0; i < views.length; i++) {
-        views[i].classList.toggle('active', views[i].id === route);
-        if (finished) {
-            activateBorder();
-        }
+window.addEventListener('resize', () => {
+    const newBreakpoint = getBreakpoint(window.innerWidth);
+    if (newBreakpoint !== currentBreakpoint) {
+        location.reload();
     }
-}
-
-document.querySelectorAll('nav a[data-route]').forEach(link => {
-    link.addEventListener('click', e => {
-        e.preventDefault();
-        const route = link.getAttribute('data-route');
-        router(route);
-    });
+    currentBreakpoint = newBreakpoint;
 });
+
+function getBreakpoint(width) {
+    if (width <= 550) return 'mobile';
+    if (width <= 1200) return 'tablet';
+    return 'desktop';
+}
 
 
 function setupCardClickHandlers() {
@@ -39,25 +33,57 @@ function setupCardClickHandlers() {
         const blocks = newCard.querySelectorAll('.project-block');
         const isExpandable = blocks.length > 1;
 
+        // Asegurar que se reinicia el estado visual
+        newCard.classList.remove('open');
+        newCard.style.maxHeight = null;
+
         if (!isMobile && isExpandable) {
             newCard.addEventListener('click', () => {
                 const isOpen = newCard.classList.contains('open');
+
                 if (isOpen) {
-                    newCard.style.maxHeight = newCard.scrollHeight + 'px';
-                    requestAnimationFrame(() => {
-                        newCard.classList.remove('open');
-                    });
+                    newCard.classList.remove('open');
+                    newCard.style.maxHeight = null;
                 } else {
                     newCard.classList.add('open');
+                    // Forzar layout antes de asignar altura para transiciones suaves
+                    void newCard.offsetHeight;
                     newCard.style.maxHeight = newCard.scrollHeight + 'px';
                 }
             });
-        } else {
-            newCard.classList.remove('open');
-            newCard.style.maxHeight = null;
         }
     });
 }
+
+async function router(route = 'hello') {
+    const views = document.querySelectorAll('.view');
+
+    views.forEach(view => {
+        view.classList.remove('active');
+    });
+
+    const target = document.getElementById(route);
+    if (target) {
+        target.classList.add('active');
+    }
+
+    if (finished) {
+        activateBorder();
+    }
+
+    document.querySelector('main').scrollTo({ top: 0, behavior: 'auto' });
+}
+
+
+document.querySelectorAll('nav a[data-route]').forEach(link => {
+    link.addEventListener('click', e => {
+        e.preventDefault();
+        const route = link.getAttribute('data-route');
+        router(route);
+    });
+});
+
+
 
 
 
@@ -88,10 +114,11 @@ function activateBorder() {
     }
 }
 async function startPresentation() {
-    let text = "HELLO";
-    await type(text, document.getElementById('salute'), "cursor", 200);
-
-    await wait(2500);
+    if (getBreakpoint(window.innerWidth) != "mobile") {
+        let text = "HELLO";
+        await type(text, document.getElementById('salute'), "cursor", 200);
+        await wait(2500);
+    }
 
     let navlinks = document.querySelectorAll(".navItem");
     for (let i = 0; i < navlinks.length; i++) {
@@ -114,15 +141,13 @@ async function startPresentation() {
         if (elements[i].tagName === "H1") {
             await type(data[i], elements[i], "smallCursor", 150);
             elements[i].innerHTML = "FRANCO CAPIGLI<span class='on'>ON</span>I";
-            await wait(500);
             activateBorder();
             finished = true;
-
             await wait(700);
         } else if (elements[i].tagName === "H2") {
             await type(data[i], elements[i], "smallCursor", 150);
         } else {
-            await type(data[i], elements[i], "smallCursor", 20);
+            await type(data[i], elements[i], "smallCursor", 10);
         }
 
     }

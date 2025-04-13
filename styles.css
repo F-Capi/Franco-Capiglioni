@@ -261,13 +261,27 @@ text-transform: uppercase;
 
 
 .view {
-    display: none;
-  }
-  
-  .view.active {
-    display: block;
-  }
-  
+  opacity: 0;
+  overflow: hidden;
+  transition: opacity 1s ease;
+  pointer-events: none;
+}
+
+.view:not(.active) {
+  height: 0;
+  padding: 0 !important;   
+  margin: 0 !important;
+  border: none;
+}
+
+.view.active {
+  height: auto;
+  opacity: 1;
+  overflow: visible;
+  pointer-events: auto;
+}
+
+
 
   #projects{
     overflow-x: hidden;
