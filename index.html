@@ -10,42 +10,45 @@
 
 <body>
     <div id="loader">
-        <img id="salute" draggable="false" src="HELLO.svg" alt="HEY THERE!" />
+        <span id="salute"></span>
+        <!--<img id="salute" draggable="false" src="HELLO.svg" alt="HEY THERE!" />-->
     </div>
 
     <nav>
         <ul>
-            <li><a href="#" data-route="hello">HELLO</a></li>
-            <li><a href="#" data-route="projects">PROJECTS</a></li>
+            <li class="navItem"><a href="#" data-route="hello">HELLO</a></li>
+            <li class="navItem"><a href="#" data-route="projects">PROJECTS</a></li>
 
         </ul>
     </nav>
 
     <main>
         <section id="hello" class="view active">
-            <h1>FRANCO CAPIGLIONI</h1>
+            <h1 data-typing class="hidden">FRANCO CAPIGLIONI</h1>
 
-            <p>
+            <p data-typing class="hidden">
                 I’m a junior front-end developer with a solid understanding of HTML, CSS and JavaScript. I’m especially
                 interested in building interactive and engaging experiences, both for the web and through games.
-            </p>
-            <p>While teaching programming to kids, I discovered a passion for creating my own tools: small, gamified
+            </p data-typing>
+            <p data-typing class="hidden">While teaching programming to kids, I discovered a passion for creating my own
+                tools: small,
+                gamified
                 apps that made it easier to explain complex ideas in a playful and visual way. That experience shaped
                 how I approach development as a way to teach, engage, and spark curiosity.</p>
-            <p>
+            <p data-typing class="hidden">
                 I’m now looking to join a creative, technically driven team where I can grow, contribute, and keep
                 learning modern technologies through real-world projects.
             </p>
 
-            <h2>EXPERTISE</h2>
-            <p>
+            <h2 data-typing class="hidden">EXPERTISE</h2>
+            <p data-typing class="hidden">
                 HTML5, CSS3, JavaScript (ES6+), Git, Node.js, Express, Python, Java, C#, Unity, currently learning
                 React.
             </p>
             <ul id="contact-links">
-                <li><a href="mailto:francocapiglioni12@gmail..com">EMAIL</a></li>
-                <li><a download href="./cv-franco-capiglioni.pdf">CV</a></li>
-                <li><a style="display: none" href="https://www.linkedin.com/in/yourlinkedin/"
+                <li contact-link><a style="display: block;" href="mailto:francocapiglioni12@gmail..com">EMAIL</a></li>
+                <li contact-link><a style="display: block;" download href="./cv-franco-capiglioni.pdf">CV</a></li>
+                <li contact-link><a style="display: none" href="https://www.linkedin.com/in/yourlinkedin/"
                         target="_blank">LINKEDIN</a></li>
             </ul>
         </section>
@@ -114,6 +117,7 @@
                     <ul class="project-features">
                         <li>HTML, CSS, JavaScript</li>
                         <li>Node.js & Express</li>
+                        </br>
                         <li>Custom turtle interpreter</li>
                         <li>Playable platformer engine</li>
                         <li>Blockly Library</li>
