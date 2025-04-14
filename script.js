@@ -25,35 +25,48 @@ function getBreakpoint(width) {
 
 function setupCardClickHandlers() {
     const isMobile = window.innerWidth <= 550;
-
+    if (isMobile) {
+        return
+    }
     document.querySelectorAll('.project-card').forEach(card => {
         const newCard = card.cloneNode(true);
         card.replaceWith(newCard);
 
         const blocks = newCard.querySelectorAll('.project-block');
+        let features = newCard.querySelector('.project-features');
         const isExpandable = blocks.length > 1;
 
-        // Asegurar que se reinicia el estado visual
-        newCard.classList.remove('open');
-        newCard.style.maxHeight = null;
+        if (!isExpandable) return;
 
-        if (!isMobile && isExpandable) {
-            newCard.addEventListener('click', () => {
-                const isOpen = newCard.classList.contains('open');
-
-                if (isOpen) {
-                    newCard.classList.remove('open');
-                    newCard.style.maxHeight = null;
-                } else {
-                    newCard.classList.add('open');
-                    // Forzar layout antes de asignar altura para transiciones suaves
-                    void newCard.offsetHeight;
-                    newCard.style.maxHeight = newCard.scrollHeight + 'px';
-                }
-            });
+        if (features) {
+            features.style.display = 'none';
         }
+
+        const btn = document.createElement('button');
+        btn.textContent = 'Show more...';
+        btn.classList.add('toggle-features-btn');
+        newCard.querySelector('.project-info').appendChild(btn);
+
+        btn.addEventListener('click', () => {
+            const isOpen = newCard.classList.contains('open');
+
+            if (isOpen) {
+                newCard.classList.remove('open');
+                newCard.style.maxHeight = null;
+                if (features) features.style.display = 'none';
+                btn.textContent = 'Show more...';
+            } else {
+                newCard.classList.add('open');
+                void newCard.offsetHeight;
+                newCard.style.maxHeight = newCard.scrollHeight + 'px';
+                if (features) features.style.display = 'block';
+                btn.textContent = 'Show less';
+            }
+        });
     });
 }
+
+
 
 async function router(route = 'hello') {
     const views = document.querySelectorAll('.view');
