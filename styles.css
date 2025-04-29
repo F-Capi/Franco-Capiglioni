@@ -9,6 +9,12 @@
   list-style: none;
 }
 
+.nofar{
+  color: #00bf63 !important;
+}
+.nofar:hover{
+  text-decoration: underline;
+}
 .toggle-features-btn {
   background: none;
   border: none;
